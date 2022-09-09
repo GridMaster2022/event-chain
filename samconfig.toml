@@ -1,0 +1,14 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "#STACK_NAME"
+s3_bucket = "#BUCKET_NAME"
+s3_prefix = "gridmaster-event-chain"
+region = "eu-central-1"
+confirm_changeset = false
+capabilities = "CAPABILITY_IAM"
+tags = "TAG1=\"VALUE1\" TAG2=\"VALUE2\""
+image_repositories = ["TennetLoadflowImage={REPLACE_WITH_ACCOUNT_NR}.dkr.ecr.eu-central-1.amazonaws.com/gridmaster-loadflow-tennet",
+                      "PostProcessingTennetImage={REPLACE_WITH_ACCOUNT_NR}.dkr.ecr.eu-central-1.amazonaws.com/gridmaster-post-processing-tennet",
+                      "StedinLoadflowImage={REPLACE_WITH_ACCOUNT_NR}.dkr.ecr.eu-central-1.amazonaws.com/gridmaster-loadflow-stedin"]

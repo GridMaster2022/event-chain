@@ -1,0 +1,419 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Gridmaster-lambda-chain
+
+Parameters:
+  databaseSecret:
+    Type: String
+    Default: "#SECRET_NAME"
+  databaseSchemaName:
+    Type: String
+    Default: "#DATABASE_SCHEMA_NAME"
+  environment:
+    AllowedValues:
+      - "dev"
+      - "prod"
+    Type: String
+    Description: deployment environment, either dev or prod
+    Default: "dev"
+  kmsMasterKeyId:
+    Type: String
+    Default: "#KMS_MASTER_KEY"
+  influxDbIp:
+    Type: String
+    Default: "#INFLUX_DB_IP"
+  influxDbPort:
+    Type: String
+    Default: 8086
+  networkBucketName:
+    Type: String
+    Default: "#BUCKET_NAME_WHICH_CONTAINS_PANDAPOWER_NETWORKS"
+  lambdaRoleArn:
+    Type: String
+    Default: "#ARN_OF_IAM_ROLE_FOR_LAMBDA"
+  lambdaRoleArnContainerManager:
+    Type: String
+    Default: "#ARN_OF_IAM_ROLE_FOR_LAMBDA"
+
+Globals:
+  Function:
+    Timeout: 30
+    VpcConfig:
+      SecurityGroupIds:
+        - GENERIC_SECURITY_GROUP_ID_PLACEHOLDER
+      SubnetIds:
+        - SUBNET1_PLACEHOLDER
+        - SUBNET2_PLACEHOLDER
+        - SUBNET3_PLACEHOLDER
+    Environment:
+      Variables:
+        BUCKET_NAME: "#STORAGE_BUCKET_NAME"
+        ENVIRONMENT: !Ref environment
+
+Resources:
+  ContainerManager:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: 99_container_manager/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Role: !Ref lambdaRoleArnContainerManager
+      MemorySize: 128
+      Timeout: 60
+      Events:
+        CWSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+            Name: GridmasterContainerManagerSchedule
+            Description: Manage containers every minute
+            Enabled: false
+      Environment:
+        Variables:
+          ESSIM_CONTAINER_LIMIT: 100
+          ESSIM_QUEUE_URL: !Ref GridmasterESSIMQueue
+          LOADFLOW_CONTAINER_LIMIT: 100
+          LOADFLOW_QUEUE_URL: !Ref GridmasterGasunieLoadflowQueue
+          ETM_CONTAINER_LIMIT: 4
+          ETM_QUEUE_URL: !Ref GridmasterEtmApiQueue
+          INIT_CONTAINER_LIMIT: 10
+          INIT_QUEUE_URL: !Ref GridmasterInitQueue
+          ESDL_CONTAINER_LIMIT: 20
+          ESDL_QUEUE_URL: !Ref GridmasterEsdlGeneratorQueue
+          CONTAINER_SUBNET: "#SUBNET_FOR_CONTAINERS_TO_SPAWN"
+          ESSIM_CONTAINER_SG: "#SG_FOR_CONTAINERS_TO_SPAWN"
+          GENERAL_CONTAINER_SG: "#SG_FOR_CONTAINERS_TO_SPAWN"
+
+  GasUnieMetrics:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: 09_gasunie_metrics/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Role: !Ref lambdaRoleArn
+      MemorySize: 1024
+      Timeout: 50
+      Layers:
+        - !Ref GridmasterPandasLayer
+      Events:
+        GasUnieMetrics:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt GridmasterGasunieMetrics.Arn
+            BatchSize: 1
+      Environment:
+        Variables:
+          DATABASE_SCHEMA_NAME: !Ref databaseSchemaName
+
+  GridmasterGasunieMetrics:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 60
+      QueueName: gridmaster_gasunie_metrics
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  StedinLoadflowImage:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Role: !Ref lambdaRoleArn
+      MemorySize: 1024
+      Timeout: 540
+      Events:
+        StedinLoadFlowSQS:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt GridmasterStedinLoadflowQueue.Arn
+            BatchSize: 1
+      Environment:
+        Variables:
+          DATABASE_SCHEMA_NAME: !Ref databaseSchemaName
+    Metadata:
+      Dockertag: v1
+      DockerContext: ./08_loadflow_stedin
+      Dockerfile: Dockerfile
+
+  GridmasterStedinLoadflowQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 600
+      QueueName: gridmaster_stedin_loadflow
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  GridmasterGasunieLoadflowQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 600
+      QueueName: gridmaster_gasunie_loadflow
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  GasUniePostProcessing:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: 06_post_processing_gasunie/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Role: !Ref lambdaRoleArn
+      MemorySize: 1024
+      Timeout: 540
+      Layers:
+        - !Ref GridmasterPandasLayer
+      Events:
+        TennetLoadFlowSQS:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt GridmasterGasuniePostProcessingQueue.Arn
+            BatchSize: 1
+      Environment:
+        Variables:
+          GASUNIE_LOADFLOW_QUEUE_URL: !Ref GridmasterGasunieLoadflowQueue
+          DATABASE_SCHEMA_NAME: !Ref databaseSchemaName
+
+  GridmasterGasuniePostProcessingQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 600
+      QueueName: gridmaster_gasunie_post_processing
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  TennetLoadflowImage:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Role: !Ref lambdaRoleArn
+      MemorySize: 2048
+      Timeout: 90
+      Events:
+        TennetLoadFlowSQS:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt GridmasterTennetLoadflowQueue.Arn
+            BatchSize: 1
+      Environment:
+        Variables:
+          DATABASE_SCHEMA_NAME: !Ref databaseSchemaName
+    Metadata:
+      Dockertag: v1
+      DockerContext: ./07_loadflow_tennet
+      Dockerfile: Dockerfile
+
+  GridmasterTennetLoadflowQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 100
+      QueueName: gridmaster_tennet_loadflow
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  PostProcessingTennetImage:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Role: !Ref lambdaRoleArn
+      MemorySize: 2048
+      Timeout: 90
+      Events:
+        PostProcessingTennet:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt GridmasterTennetPostProcessingQueue.Arn
+            BatchSize: 1
+      Environment:
+        Variables:
+          TENNET_LOADFLOW_QUEUE_URL: !Ref GridmasterTennetLoadflowQueue
+          NETWORK_BUCKET_NAME: !Ref networkBucketName
+          DATABASE_SCHEMA_NAME: !Ref databaseSchemaName
+    Metadata:
+      Dockertag: v2
+      DockerContext: ./05_post_processing_tennet
+      Dockerfile: Dockerfile
+
+  GridmasterTennetPostProcessingQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 100
+      QueueName: gridmaster_tennet_post_processing
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  PostProcessingTennetFanout:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: 05_post_processing_fanout/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Role: !Ref lambdaRoleArn
+      MemorySize: 128
+      Timeout: 25
+      Layers:
+        - !Ref GridmasterPandasLayer
+      Events:
+        EssimExport:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt GridmasterTennetPostProcessingFanoutQueue.Arn
+            BatchSize: 1
+      Environment:
+        Variables:
+          TENNET_POST_PROCESSING_QUEUE_URL: !Ref GridmasterTennetPostProcessingQueue
+
+  GridmasterTennetPostProcessingFanoutQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 30
+      QueueName: gridmaster_tennet_post_processing_fanout
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  GridmasterPostProcessingFanout:
+    Type: AWS::SNS::Topic
+    Properties:
+      FifoTopic: False
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+      TopicName: gridmaster_post_processing_fanout
+      Subscription:
+        - Endpoint: !GetAtt GridmasterGasuniePostProcessingQueue.Arn
+        - Endpoint: !GetAtt GridmasterStedinLoadflowQueue.Arn
+        - Endpoint: !GetAtt GridmasterTennetPostProcessingFanoutQueue.Arn
+          Protocol: sqs
+
+  GridmasterFanoutQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: sns.amazonaws.com
+          Action:
+          - sqs:SendMessage
+          Resource: "*"
+          Condition:
+            ArnEquals:
+              aws:SourceArn:
+                Ref: GridmasterPostProcessingFanout
+      Queues:
+      - Ref: GridmasterGasuniePostProcessingQueue
+      - Ref: GridmasterStedinLoadflowQueue
+      - Ref: GridmasterTennetPostProcessingFanoutQueue
+
+  EssimExport:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: 03_essim_export/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Role: !Ref lambdaRoleArn
+      MemorySize: 4096
+      Timeout: 540
+      Layers:
+        - !Ref GridmasterPandasLayer
+      Events:
+        EssimExport:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt GridmasterESSIMExportQueue.Arn
+            BatchSize: 1
+      Environment:
+        Variables:
+          POST_PROCESSING_FANOUT_ARN: !Ref GridmasterPostProcessingFanout
+          INFLUX_HOST: !Ref influxDbIp
+          INFLUX_PORT: !Ref influxDbPort
+          DATABASE_SCHEMA_NAME: !Ref databaseSchemaName
+
+  GridmasterESSIMExportQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 600
+      QueueName: gridmaster_essim_export_queue
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  GridmasterESSIMQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 3000
+      QueueName: gridmaster_essim_queue
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  EsdlUpdater:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: 02_esdl_updater/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Role: !Ref lambdaRoleArn
+      MemorySize: 768
+      Timeout: 240
+      ReservedConcurrentExecutions: 3
+      Layers:
+        - !Ref GridmasterPandasLayer
+      Events:
+        EsdlUpdaterSQS:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt GridmasterESDLUpdaterQueue.Arn
+            BatchSize: 1
+      Environment:
+        Variables:
+          ESSIM_QUEUE_URL: !Ref GridmasterESSIMQueue
+          DATABASE_SCHEMA_NAME: !Ref databaseSchemaName
+
+  GridmasterESDLUpdaterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 200
+      QueueName: gridmaster_esdl_updater_queue
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  GridmasterEtmApiQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 60
+      QueueName: gridmaster_etm_api_queue
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  GridmasterInitQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 900
+      QueueName: gridmaster_init_queue
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  GridmasterEsdlGeneratorQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 3600
+      QueueName: gridmaster_esdl_generator_queue
+      KmsMasterKeyId: !Ref kmsMasterKeyId
+
+  KickOff:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: 01_kick_off/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Role: !Ref lambdaRoleArn
+      Timeout: 30
+      Events:
+        EventSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+            Name: GridmasterKickOffSchedule
+            Description: Kick-off every 1 minute
+            Enabled: false
+      Environment:
+        Variables:
+          ETM_QUEUE_URL: !Ref GridmasterEtmApiQueue
+          ESSIM_QUEUE_URL: !Ref GridmasterESSIMQueue
+          init_queue_url: !Ref GridmasterInitQueue
+          ESDL_QUEUE_URL: !Ref GridmasterEsdlGeneratorQueue
+          ETM_REQUEST_LIMIT_PER_MINUTE: 30
+          DATABASE_SECRET_NAME: !Ref databaseSecret
+
+  GridmasterPandasLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: 98_pandas_pp_layer
+      CompatibleRuntimes:
+        - python3.8
+    Metadata:
+      BuildMethod: makefile

@@ -1,0 +1,8 @@
+requests
+pymysql
+s3fs
+numpy
+pandas
+scipy
+pandapower
+s3fs

@@ -1,0 +1,174 @@
+ETM;carrier;product;category;sector
+agriculture_geothermal.input (MW);Electricity;Demand;Baseload;Agriculture
+agriculture_heatpump_water_water_ts_electricity.input (MW);Electricity;Demand;Baseload;Agriculture
+agriculture_useful_demand_electricity.input (MW);Electricity;Demand;Baseload;Agriculture
+buildings_appliances_electricity.input (MW);Electricity;Demand;Baseload;Buildings
+buildings_cooling_airconditioning_electricity.input (MW);Electricity;Demand;Baseload;Buildings
+buildings_cooling_collective_heatpump_water_water_ts_electricity.input (MW);Electricity;Demand;Baseload;Buildings
+buildings_lighting_efficient_fluorescent_electricity.input (MW);Electricity;Demand;Baseload;Buildings
+buildings_lighting_led_electricity.input (MW);Electricity;Demand;Baseload;Buildings
+buildings_lighting_standard_fluorescent_electricity.input (MW);Electricity;Demand;Baseload;Buildings
+buildings_space_heater_collective_heatpump_water_water_ts_electricity.input (MW);Electricity;Demand;Baseload;Buildings HP Electric
+buildings_space_heater_electricity.input (MW);Electricity;Demand;Baseload;Buildings HP Electric
+buildings_cooling_heatpump_air_water_electricity.input (MW);Electricity;Demand;Baseload;Buildings HP Hybrid
+buildings_space_heater_heatpump_air_water_electricity.input (MW);Electricity;Demand;Baseload;Buildings HP Hybrid
+energy_heat_heatpump_water_water_electricity.input (MW);Electricity;Demand;Baseload;Buildings HP Hybrid
+energy_heat_flexibility_p2h_boiler_electricity.input (MW);Electricity;Demand;Baseload;Heat Network
+energy_heat_flexibility_p2h_heatpump_electricity.input (MW);Electricity;Demand;Baseload;Heat Network
+energy_heat_well_geothermal.input (MW);Electricity;Demand;Baseload;Heat Network
+households_cooker_halogen_electricity.input (MW);Electricity;Demand;Baseload;Household
+households_cooker_induction_electricity.input (MW);Electricity;Demand;Baseload;Household
+households_cooker_resistive_electricity.input (MW);Electricity;Demand;Baseload;Household
+households_cooling_airconditioning_electricity.input (MW);Electricity;Demand;Baseload;Household
+households_cooling_heatpump_air_water_electricity.input (MW);Electricity;Demand;Baseload;Household
+households_cooling_heatpump_ground_water_electricity.input (MW);Electricity;Demand;Baseload;Household
+households_final_demand_for_appliances_electricity.input (MW);Electricity;Demand;Baseload;Household
+households_lighting_efficient_fluorescent_electricity.input (MW);Electricity;Demand;Baseload;Household
+households_lighting_incandescent_electricity.input (MW);Electricity;Demand;Baseload;Household
+households_lighting_led_electricity.input (MW);Electricity;Demand;Baseload;Household
+households_space_heater_electricity.input (MW);Electricity;Demand;Baseload;Household HP Electric
+households_space_heater_heatpump_air_water_electricity.input (MW);Electricity;Demand;Baseload;Household HP Electric
+households_space_heater_heatpump_ground_water_electricity.input (MW);Electricity;Demand;Baseload;Household HP Electric
+households_water_heater_heatpump_air_water_electricity.input (MW);Electricity;Demand;Baseload;Household HP Electric
+households_water_heater_heatpump_ground_water_electricity.input (MW);Electricity;Demand;Baseload;Household HP Electric
+households_water_heater_resistive_electricity.input (MW);Electricity;Demand;Baseload;Household HP Electric
+households_space_heater_hybrid_heatpump_air_water_electricity.input (MW);Electricity;Demand;Baseload;Household HP Hybrid
+households_space_heater_hybrid_hydrogen_heatpump_air_water_electricity.input (MW);Electricity;Demand;Baseload;Household HP Hybrid
+households_water_heater_hybrid_heatpump_air_water_electricity.input (MW);Electricity;Demand;Baseload;Household HP Hybrid
+households_water_heater_hybrid_hydrogen_heatpump_air_water_electricity.input (MW);Electricity;Demand;Baseload;Household HP Hybrid
+industry_final_demand_for_metal_aluminium_electricity.input (MW);Electricity;Demand;Baseload;Industry Aluminium
+industry_chemicals_fertilizers_captured_combustion_co2_electricity.input (MW);Electricity;Demand;Baseload;Industry Chemicals
+industry_chemicals_fertilizers_captured_processes_co2_electricity.input (MW);Electricity;Demand;Baseload;Industry Chemicals
+industry_chemicals_other_flexibility_p2h_hydrogen_electricity.input (MW);Electricity;Demand;Baseload;Industry Chemicals
+industry_chemicals_other_flexibility_p2h_network_gas_electricity.input (MW);Electricity;Demand;Baseload;Industry Chemicals
+industry_chemicals_other_heater_electricity.input (MW);Electricity;Demand;Baseload;Industry Chemicals
+industry_chemicals_other_heatpump_water_water_electricity.input (MW);Electricity;Demand;Baseload;Industry Chemicals
+industry_chemicals_other_steam_recompression_electricity.input (MW);Electricity;Demand;Baseload;Industry Chemicals
+industry_useful_demand_for_chemical_fertilizers_electricity.input (MW);Electricity;Demand;Baseload;Industry Chemicals
+industry_useful_demand_for_chemical_other_electricity.input (MW);Electricity;Demand;Baseload;Industry Chemicals
+industry_useful_demand_for_chemical_refineries_electricity.input (MW);Electricity;Demand;Baseload;Industry Chemicals
+industry_other_food_captured_co2_electricity.input (MW);Electricity;Demand;Baseload;Industry Food
+industry_other_food_flexibility_p2h_hydrogen_electricity.input (MW);Electricity;Demand;Baseload;Industry Food
+industry_other_food_flexibility_p2h_network_gas_electricity.input (MW);Electricity;Demand;Baseload;Industry Food
+industry_other_food_heater_electricity.input (MW);Electricity;Demand;Baseload;Industry Food
+industry_useful_demand_for_other_food_electricity.input (MW);Electricity;Demand;Baseload;Industry Food
+energy_compressor_network_gas.input (MW);Electricity;Demand;Baseload;Industry Other
+industry_final_demand_for_other_ict_electricity.input (MW);Electricity;Demand;Baseload;Industry Other
+industry_final_demand_for_other_non_specified_electricity.input (MW);Electricity;Demand;Baseload;Industry Other
+industry_heat_well_geothermal.input (MW);Electricity;Demand;Baseload;Industry Other
+industry_other_paper_captured_co2_electricity.input (MW);Electricity;Demand;Baseload;Industry Paper
+industry_other_paper_flexibility_p2h_hydrogen_electricity.input (MW);Electricity;Demand;Baseload;Industry Paper
+industry_other_paper_flexibility_p2h_network_gas_electricity.input (MW);Electricity;Demand;Baseload;Industry Paper
+industry_other_paper_heater_electricity.input (MW);Electricity;Demand;Baseload;Industry Paper
+industry_useful_demand_for_other_paper_electricity.input (MW);Electricity;Demand;Baseload;Industry Paper
+industry_chemicals_refineries_flexibility_p2h_hydrogen_electricity.input (MW);Electricity;Demand;Baseload;Industry Refineries
+industry_chemicals_refineries_flexibility_p2h_network_gas_electricity.input (MW);Electricity;Demand;Baseload;Industry Refineries
+industry_final_demand_for_metal_other_metals_electricity.input (MW);Electricity;Demand;Baseload;Industry Steel
+industry_steel_blastfurnace_bof.input (MW);Electricity;Demand;Baseload;Industry Steel
+industry_steel_blastfurnace_bof_captured_co2_electricity.input (MW);Electricity;Demand;Baseload;Industry Steel
+industry_steel_cyclonefurnace_bof.input (MW);Electricity;Demand;Baseload;Industry Steel
+industry_steel_cyclonefurnace_bof_captured_co2_electricity.input (MW);Electricity;Demand;Baseload;Industry Steel
+industry_steel_dri_hydrogen.input (MW);Electricity;Demand;Baseload;Industry Steel
+industry_steel_dri_network_gas.input (MW);Electricity;Demand;Baseload;Industry Steel
+industry_steel_dri_network_gas_captured_co2_electricity.input (MW);Electricity;Demand;Baseload;Industry Steel
+industry_steel_external_coupling_node.input (MW);Electricity;Demand;Baseload;Industry Steel
+industry_steel_external_coupling_node_captured_co2_electricity.input (MW);Electricity;Demand;Baseload;Industry Steel
+industry_steel_scrap_hbi_eaf.input (MW);Electricity;Demand;Baseload;Industry Steel
+energy_direct_air_capture_co2_electricity.input (MW);Electricity;Demand;Baseload;Other
+energy_offshore_sequestration_co2_electricity.input (MW);Electricity;Demand;Baseload;Other
+energy_power_hv_network_loss.input (MW);Electricity;Demand;Baseload;Other
+energy_power_sector_own_use_electricity.input (MW);Electricity;Demand;Baseload;Other
+energy_synthetic_products_electricity.input (MW);Electricity;Demand;Baseload;Other
+other_final_demand_electricity.input (MW);Electricity;Demand;Baseload;Other
+transport_car_using_electricity.input (MW);Electricity;Demand;Baseload;Transport Car
+transport_bicycle_using_electricity.input (MW);Electricity;Demand;Baseload;Transport Other
+transport_bus_using_electricity.input (MW);Electricity;Demand;Baseload;Transport Other
+transport_freight_train_using_electricity.input (MW);Electricity;Demand;Baseload;Transport Other
+transport_motorcycle_using_electricity.input (MW);Electricity;Demand;Baseload;Transport Other
+transport_passenger_train_using_electricity.input (MW);Electricity;Demand;Baseload;Transport Other
+transport_tram_using_electricity.input (MW);Electricity;Demand;Baseload;Transport Other
+transport_truck_using_electricity.input (MW);Electricity;Demand;Baseload;Transport Other
+energy_flexibility_curtailment_electricity.input (MW);Electricity;Demand;Flex;Curtailment
+energy_interconnector_1_exported_electricity.input (MW);Electricity;Demand;Flex;Exchange BE
+energy_interconnector_2_exported_electricity.input (MW);Electricity;Demand;Flex;Exchange DE
+energy_interconnector_3_exported_electricity.input (MW);Electricity;Demand;Flex;Exchange DK
+energy_interconnector_4_exported_electricity.input (MW);Electricity;Demand;Flex;Exchange NO
+energy_interconnector_5_exported_electricity.input (MW);Electricity;Demand;Flex;Exchange UK
+households_flexibility_p2p_electricity.input (MW);Electricity;Demand;Flex;Household Battery
+energy_flexibility_hv_opac_electricity.input (MW);Electricity;Demand;Flex;Hydro Storage
+energy_flexibility_pumped_storage_electricity.input (MW);Electricity;Demand;Flex;Hydro Storage
+energy_interconnector_6_exported_electricity.input (MW);Electricity;Demand;Flex;Other
+energy_hydrogen_flexibility_p2g_electricity.input (MW);Electricity;Demand;Flex;Power to Gas
+energy_flexibility_mv_batteries_electricity.input (MW);Electricity;Demand;Flex;System Battery
+transport_car_flexibility_p2p_electricity.input (MW);Electricity;Demand;Flex;Vehicle Battery
+deficit;Electricity;Supply;Deficit;Deficit
+energy_flexibility_curtailment_electricity.output (MW);Electricity;Supply;Flex;Curtailment
+energy_interconnector_1_imported_electricity.output (MW);Electricity;Supply;Flex;Exchange BE
+energy_interconnector_2_imported_electricity.output (MW);Electricity;Supply;Flex;Exchange DE
+energy_interconnector_3_imported_electricity.output (MW);Electricity;Supply;Flex;Exchange DK
+energy_interconnector_4_imported_electricity.output (MW);Electricity;Supply;Flex;Exchange NO
+energy_interconnector_5_imported_electricity.output (MW);Electricity;Supply;Flex;Exchange UK
+households_flexibility_p2p_electricity.output (MW);Electricity;Supply;Flex;Household Battery
+energy_flexibility_hv_opac_electricity.output (MW);Electricity;Supply;Flex;Hydro Storage
+energy_flexibility_pumped_storage_electricity.output (MW);Electricity;Supply;Flex;Hydro Storage
+energy_interconnector_6_imported_electricity.output (MW);Electricity;Supply;Flex;Other
+energy_power_combined_cycle_ccs_network_gas.output (MW);Electricity;Supply;Flex;Power Plant Gas Large
+energy_power_combined_cycle_hydrogen.output (MW);Electricity;Supply;Flex;Power Plant Gas Large
+energy_power_combined_cycle_network_gas.output (MW);Electricity;Supply;Flex;Power Plant Gas Large
+industry_chp_engine_gas_power_fuelmix.output (MW);Electricity;Supply;Flex;Power Plant Gas Large
+industry_chp_turbine_gas_power_fuelmix.output (MW);Electricity;Supply;Flex;Power Plant Gas Large
+energy_chp_local_engine_biogas.output (MW);Electricity;Supply;Flex;Power Plant Gas Small
+energy_chp_local_engine_network_gas.output (MW);Electricity;Supply;Flex;Power Plant Gas Small
+energy_chp_supercritical_ccs_waste_mix.output (MW);Electricity;Supply;Flex;Power Plant Gas Small
+energy_power_engine_network_gas.output (MW);Electricity;Supply;Flex;Power Plant Gas Small
+energy_power_turbine_hydrogen.output (MW);Electricity;Supply;Flex;Power Plant Gas Small
+energy_power_turbine_network_gas.output (MW);Electricity;Supply;Flex;Power Plant Gas Small
+energy_power_ultra_supercritical_network_gas.output (MW);Electricity;Supply;Flex;Power Plant Gas Small
+industry_chp_combined_cycle_gas_power_fuelmix.output (MW);Electricity;Supply;Flex;Power Plant Gas Small
+energy_hydrogen_flexibility_p2g_electricity.output (MW);Electricity;Supply;Flex;Power to Gas
+energy_flexibility_mv_batteries_electricity.output (MW);Electricity;Supply;Flex;System Battery
+transport_car_flexibility_p2p_electricity.output (MW);Electricity;Supply;Flex;Vehicle Battery
+energy_heat_flexibility_p2h_boiler_electricity.output (MW);Electricity;Supply;Market;Heat Network
+energy_heat_flexibility_p2h_heatpump_electricity.output (MW);Electricity;Supply;Market;Heat Network
+industry_chemicals_other_flexibility_p2h_hydrogen_electricity.output (MW);Electricity;Supply;Market;Industry Chemicals
+industry_chemicals_other_flexibility_p2h_network_gas_electricity.output (MW);Electricity;Supply;Market;Industry Chemicals
+industry_other_food_flexibility_p2h_hydrogen_electricity.output (MW);Electricity;Supply;Market;Industry Food
+industry_other_food_flexibility_p2h_network_gas_electricity.output (MW);Electricity;Supply;Market;Industry Food
+industry_other_paper_flexibility_p2h_hydrogen_electricity.output (MW);Electricity;Supply;Market;Industry Paper
+industry_other_paper_flexibility_p2h_network_gas_electricity.output (MW);Electricity;Supply;Market;Industry Paper
+industry_chemicals_refineries_flexibility_p2h_hydrogen_electricity.output (MW);Electricity;Supply;Market;Industry Refineries
+industry_chemicals_refineries_flexibility_p2h_network_gas_electricity.output (MW);Electricity;Supply;Market;Industry Refineries
+energy_chp_local_wood_pellets.output (MW);Electricity;Supply;Market;Power Plant Biomass
+energy_chp_coal_gas.output (MW);Electricity;Supply;Market;Power Plant CHP
+energy_chp_combined_cycle_network_gas.output (MW);Electricity;Supply;Market;Power Plant CHP
+energy_power_combined_cycle_coal_gas.output (MW);Electricity;Supply;Market;Power Plant CHP
+energy_chp_ultra_supercritical_coal.output (MW);Electricity;Supply;Market;Power Plant Coal
+energy_chp_ultra_supercritical_cofiring_coal.output (MW);Electricity;Supply;Market;Power Plant Coal
+energy_chp_ultra_supercritical_lignite.output (MW);Electricity;Supply;Market;Power Plant Coal
+energy_power_combined_cycle_ccs_coal.output (MW);Electricity;Supply;Market;Power Plant Coal
+energy_power_combined_cycle_coal.output (MW);Electricity;Supply;Market;Power Plant Coal
+energy_power_supercritical_coal.output (MW);Electricity;Supply;Market;Power Plant Coal
+energy_power_ultra_supercritical_ccs_coal.output (MW);Electricity;Supply;Market;Power Plant Coal
+energy_power_ultra_supercritical_coal.output (MW);Electricity;Supply;Market;Power Plant Coal
+energy_power_ultra_supercritical_cofiring_coal.output (MW);Electricity;Supply;Market;Power Plant Coal
+industry_chp_ultra_supercritical_coal.output (MW);Electricity;Supply;Market;Power Plant Coal
+energy_power_nuclear_gen2_uranium_oxide.output (MW);Electricity;Supply;Market;Power Plant Nuclear
+energy_power_nuclear_gen3_uranium_oxide.output (MW);Electricity;Supply;Market;Power Plant Nuclear
+energy_chp_supercritical_waste_mix.output (MW);Electricity;Supply;Market;Power Plant Other
+energy_power_engine_diesel.output (MW);Electricity;Supply;Market;Power Plant Other
+energy_power_geothermal.output (MW);Electricity;Supply;Market;Power Plant Other
+energy_power_hydro_mountain.output (MW);Electricity;Supply;Market;Power Plant Other
+energy_power_hydro_river.output (MW);Electricity;Supply;Market;Power Plant Other
+energy_power_supercritical_ccs_waste_mix.output (MW);Electricity;Supply;Market;Power Plant Other
+energy_power_supercritical_waste_mix.output (MW);Electricity;Supply;Market;Power Plant Other
+energy_power_ultra_supercritical_crude_oil.output (MW);Electricity;Supply;Market;Power Plant Other
+energy_power_ultra_supercritical_lignite.output (MW);Electricity;Supply;Market;Power Plant Other
+energy_power_ultra_supercritical_oxyfuel_ccs_lignite.output (MW);Electricity;Supply;Market;Power Plant Other
+industry_chp_wood_pellets.output (MW);Electricity;Supply;Market;Power Plant Other
+buildings_solar_pv_solar_radiation.output (MW);Electricity;Supply;Must Run;Solar PV Buildings
+energy_power_solar_csp_solar_radiation.output (MW);Electricity;Supply;Must Run;Solar PV Field
+energy_power_solar_pv_solar_radiation.output (MW);Electricity;Supply;Must Run;Solar PV Field
+households_solar_pv_solar_radiation.output (MW);Electricity;Supply;Must Run;Solar PV Households
+energy_power_wind_turbine_offshore.output (MW);Electricity;Supply;Must Run;Wind Offshore
+energy_power_wind_turbine_coastal.output (MW);Electricity;Supply;Must Run;Wind Onshore
+energy_power_wind_turbine_inland.output (MW);Electricity;Supply;Must Run;Wind Onshore
